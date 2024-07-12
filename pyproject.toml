@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "web"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.111.0"
+sqlalchemy = "^2.0.31"
+
+[tool.poetry.group.dev.dependencies]
+taskipy = "^1.13.0"
+ruff = "^0.5.1"
+pytest = "^8.2.2"
+pytest-cov = "^5.0.0"
+
+[tool.ruff.lint]
+line-length = 79
+
+[tool.taskipy.tasks]
+run = "fastapi dev app/main.py"
+
+[tool.pytest.ini_options]
+pythonpath ="."
+addopts = "-p no:warnings"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
