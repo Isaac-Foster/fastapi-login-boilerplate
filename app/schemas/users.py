@@ -2,10 +2,12 @@ import bcrypt
 
 from typing import Annotated
 from dataclasses import dataclass
+from pydantic.networks import EmailStr
+from email_validator import validate_email, EmailNotValidError
+
 
 from fastapi import Query, Body
-
-from database.sql import cur, commit
+from app.database.sql import cur, commit
 
 
 @dataclass
@@ -23,7 +25,7 @@ class User:
 @dataclass
 class Registry:
     name: Annotated[str, Body(description="first_name suname")]
-    email: Annotated[str, Body(description="test@sample.com")]
+    email: Annotated[EmailStr, Body(description="test@sample.com")]
     username: Annotated[str, Body(description="@sample")]
     passwd: Annotated[str, Body(description="Admin123***")]
 
@@ -31,6 +33,11 @@ class Registry:
         salt = bcrypt.gensalt()
         hashed = bcrypt.hashpw(self.passwd.encode('utf-8'), salt)
         self.passwd = hashed.decode('utf-8')
+
+        emailinfo = validate_email(self.email, check_deliverability=True)
+
+        email = emailinfo.normalized
+
 
     def register(self) -> bool:
         alerdy = cur.execute(
@@ -64,7 +71,7 @@ class Login:
 
         if not hashed:
             return hashed
-
+        
         return (
             bcrypt.checkpw(self.passwd.encode('utf-8'),
             hashed[0].encode('utf-8'))

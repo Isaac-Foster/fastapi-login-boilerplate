@@ -1,6 +1,6 @@
 from sqlite3 import connect
 
-db = connect("main.db", check_same_thread=False)
+db = connect(":memory:", check_same_thread=False)
 
 cur = db.cursor()
 commit = (lambda: db.commit())
