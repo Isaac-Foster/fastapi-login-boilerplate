@@ -10,7 +10,7 @@ from app.responses.users import (
     ResgistrySucessfull
 )
 
-from app.databases.redis import redis_manager, login_requeried
+from app.databases.redis import redis_manager, login_required
 
 
 router = APIRouter(prefix="/users")
@@ -61,6 +61,6 @@ async def signup(
 
 
 @router.get("/user")
-@login_requeried
+@login_required
 async def who(request: Request, response: Response):
     return dict(message="tem session")
