@@ -9,8 +9,8 @@ from app.responses.users import (
     LoginSucessfull, 
     ResgistrySucessfull
 )
-from app.database.sql import cur, commit
-from app.database.redis import redis_manager, login_requeried
+
+from app.databases.redis import redis_manager, login_requeried
 
 
 router = APIRouter(prefix="/users")

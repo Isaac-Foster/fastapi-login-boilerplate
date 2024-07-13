@@ -7,7 +7,8 @@ from email_validator import validate_email, EmailNotValidError
 
 
 from fastapi import Query, Body
-from app.database.sql import cur, commit
+from app.databases.sql import cur, commit
+
 
 
 @dataclass
