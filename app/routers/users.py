@@ -3,16 +3,23 @@ import uuid
 from fastapi import APIRouter, Response, Request, Query, Header
 
 from app.schemas.users import User, Registry, Login
-from app.responses.users import UserNotFound, UserAlreadyExist
+from app.responses.users import (
+    UserNotFound, 
+    UserAlreadyExist, 
+    LoginSucessfull, 
+    ResgistrySucessfull
+)
 from app.database.sql import cur, commit
+from app.database.redis import redis_manager, login_requeried
 
 
 router = APIRouter(prefix="/users")
 
-session = dict()
 
-
-@router.post("/sigin", responses={401: dict(model=UserNotFound)})
+@router.post("/sigin", responses={
+    200: dict(model=LoginSucessfull),
+    401: dict(model=UserNotFound)
+    })
 async def sigin(
     login: Login, 
     request: Request, 
@@ -23,17 +30,24 @@ async def sigin(
 
     if verify: 
         session_id = uuid.uuid4()
-        
-        response.set_cookie("session", session_id)
+        response.set_cookie(
+            key="session", 
+            value=session_id, 
+            httponly=True, 
+            max_age=30
+        )
 
-        session[str(session_id)] = dict(user=login.username, passwd=login.passwd)
+        redis_manager.insert(key=session_id, time=30, value=login.username)
 
-        return login
+        return LoginSucessfull()
 
     return UserNotFound()
 
 
-@router.post("/signup")
+@router.post("/signup", responses={
+    201: dict(model=ResgistrySucessfull),
+    303: dict(model=UserAlreadyExist)
+    })
 async def signup(
     registry: Registry, 
     request: Request, 
@@ -41,6 +55,12 @@ async def signup(
     ):
 
     if registry.register():
-        return registry
+        return ResgistrySucessfull()
     
     return UserAlreadyExist()
+
+
+@router.get("/user")
+@login_requeried
+async def who(request: Request, response: Response):
+    return dict(message="tem session")

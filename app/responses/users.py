@@ -1,6 +1,9 @@
 from pydantic import BaseModel
 
 
+class LoginSucessfull(BaseModel):
+    message: str = "Logado com sucesso."
+
 class Unauthorized(BaseModel):
     message: str = "você não tem permissão"
 
@@ -10,6 +13,8 @@ class ResultNotFound(BaseModel):
 class UserNotFound(BaseModel):
     message: str = "Usuário não encontrado"
 
+class ResgistrySucessfull(BaseModel):
+    message: str = "Usuário registrado com sucesso."
 
 class UserAlreadyExist(BaseModel):
     message: str = "Usuário já existente"
