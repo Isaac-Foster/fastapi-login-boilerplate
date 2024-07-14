@@ -149,13 +149,6 @@ pytest
 4. Faça push para a branch (`git push origin feature/fooBar`)
 5. Crie um novo Pull Request
 
-## TODO
-
-[] Adicionar funcionalidade de logout
-[] Migrar banco de dados para PostgreSQL usando SQLAlchemy
-[] Implementar testes automatizados
-[] Melhorar o front-end com frameworks como React ou Vue.js
-
 ## Aprendizado
 
 Este projeto é ideal para aprender e praticar:
