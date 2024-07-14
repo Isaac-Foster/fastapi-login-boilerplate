@@ -7,7 +7,7 @@ from app.responses.users import (
     UserNotFound, 
     UserAlreadyExist, 
     LoginSucessfull, 
-    ResgistrySucessfull
+    RegistrySuccessful
 )
 
 from app.databases.redis import redis_manager, login_required
@@ -16,7 +16,7 @@ from app.databases.redis import redis_manager, login_required
 router = APIRouter(prefix="/users")
 
 
-@router.post("/sigin", responses={
+@router.post("/signin", responses={
     200: dict(model=LoginSucessfull),
     401: dict(model=UserNotFound)
     })
@@ -34,13 +34,13 @@ async def sigin(
             key="session", 
             value=session_id, 
             httponly=True, 
-            max_age=30
+            max_age=120
         )
 
-        redis_manager.insert(key=session_id, time=30, value=login.username)
-
+        redis_manager.insert(key=session_id, time=120, value=login.username)
+        response.status_code = 200
         return LoginSucessfull()
-
+    response.status_code = 401
     return UserNotFound()
 
 
@@ -55,8 +55,9 @@ async def signup(
     ):
 
     if registry.register():
-        return ResgistrySucessfull()
-    
+        response.status_code = 201
+        return RegistrySuccessful()
+    response.status_code = 303
     return UserAlreadyExist()
 
 

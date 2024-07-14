@@ -1,0 +1,178 @@
+
+# Projeto de Autenticação com FastAPI, Redis e SQLite
+
+Este é um projeto simples de autenticação utilizando FastAPI, Redis e SQLite. O objetivo deste projeto é servir como uma introdução ao desenvolvimento de aplicações web com autenticação baseada em sessões. O projeto inclui endpoints para registro, login e logout de usuários.
+
+## Funcionalidades
+
+- Registro de usuário com criptografia de senhas (usando bcrypt)
+- Validação de email (regex e verificação de DNS)
+- Login de usuário
+- Proteção de rotas com sessões
+- Logout de usuário (futuro)
+- Suporte a SQLite3 com planos para migração para PostgreSQL usando SQLAlchemy
+
+## Tecnologias Utilizadas
+
+- **Backend**: FastAPI
+- **Banco de Dados**: SQLite3 (com planos para PostgreSQL usando SQLAlchemy)
+- **Gerenciamento de Sessão**: Redis
+- **Criptografia de Senhas**: bcrypt
+- **Frontend**: HTML, CSS e JavaScript
+- **Validação de Email**: `email-validator`
+
+## Estrutura do Projeto
+
+```
+├── app
+│   ├── databases
+│   │   ├── redis.py
+│   │   └── sql.py
+│   ├── __init__.py
+│   ├── main.py
+│   ├── responses
+│   │   └── users.py
+│   ├── routers
+│   │   ├── __init__.py
+│   │   └── users.py
+│   ├── schemas
+│   │   └── users.py
+│   ├── static
+│   │   ├── index.css
+│   │   └── index.js
+│   ├── templates
+│   │   └── index.html
+│   └── views
+│       └── view.py
+├── poetry.lock
+├── pyproject.toml
+├── README.md
+└── tests
+    ├── __init__.py
+    └── test_app.py
+```
+
+## Instalação
+
+1. Clone o repositório:
+
+```bash
+git clone https://github.com/seu-usuario/seu-repositorio.git
+cd seu-repositorio
+```
+
+2. Crie um ambiente virtual e instale as dependências:
+
+```bash
+poetry install
+poetry shell
+```
+
+3. Inicie o servidor Redis:
+
+```bash
+redis-server
+
+```
+
+4. Execute a aplicação FastAPI:
+
+```bash
+uvicorn app.main:app --reload
+```
+
+5. Acesse a documentação interativa da API:
+
+```
+http://127.0.0.1:8000/docs
+```
+
+## Endpoints
+
+### Registro de Usuário
+
+`POST /users/signup`
+
+- Request Body: 
+  ```json
+  {
+    "name": "string",
+    "email": "string",
+    "username": "string",
+    "passwd": "string"
+  }
+  ```
+- Lógica de Registro:
+  - Verifica se o usuário já existe no banco de dados.
+  - Valida o email usando regex e verificações de DNS com a biblioteca `email-validator`.
+  - Criptografa a senha antes de armazená-la no banco de dados.
+- Response:
+  - `201 Created`: Registro bem-sucedido
+  - `303 See Other`: Usuário já existe
+
+### Login de Usuário
+
+`POST /users/signin`
+
+- Request Body:
+  ```json
+  {
+    "username": "string",
+    "passwd": "string"
+  }
+  ```
+- Response:
+  - `200 OK`: Login bem-sucedido
+  - `401 Unauthorized`: Usuário não encontrado
+
+### Verificação de Sessão
+
+`GET /users/user`
+
+- Response:
+  - `200 OK`: Sessão válida
+  - `401 Unauthorized`: Sessão inválida ou não encontrada
+
+## Testes
+
+Para rodar os testes, utilize o comando:
+
+```bash
+pytest
+```
+
+## Como Contribuir
+
+1. Faça um fork do projeto
+2. Crie uma branch para a sua feature (`git checkout -b feature/fooBar`)
+3. Faça commit das suas alterações (`git commit -am 'Add some fooBar'`)
+4. Faça push para a branch (`git push origin feature/fooBar`)
+5. Crie um novo Pull Request
+
+## TODO
+
+[] Adicionar funcionalidade de logout
+[] Migrar banco de dados para PostgreSQL usando SQLAlchemy
+[] Implementar testes automatizados
+[] Melhorar o front-end com frameworks como React ou Vue.js
+
+## Aprendizado
+
+Este projeto é ideal para aprender e praticar:
+
+- Estruturação de projetos web com FastAPI
+- Utilização de Redis para gerenciamento de sessões
+- Criação de uma interface web básica com HTML, CSS e JavaScript
+- Práticas de autenticação e autorização
+- Validação de email e criptografia de senhas
+- Migração de banco de dados de SQLite para PostgreSQL com SQLAlchemy
+
+## Licença
+
+Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
+
+## Contato
+
+Isack Vitor - [Telegram](https://t.me/lzaacFoster), [Linkedin](https://www.linkedin.com/in/isack-vitor-rosario-neto-588085147/) - isack200961@hotmail.com
+
+Link do Projeto: [fastapi-login-boilerplate](https://github.com/Isaac-Foster/fastapi-login-boilerplate)

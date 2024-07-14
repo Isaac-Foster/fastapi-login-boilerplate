@@ -13,10 +13,10 @@ from app.databases.sql import cur, commit
 
 @dataclass
 class User:
-    name: Annotated[str, Body(description="first_name suname")]
-    email: Annotated[str, Body(description="test@sample.com")]
-    username: Annotated[str, Body(description="@sample")]
-    passwd: Annotated[str, Body(description="Admin123***")]
+    name: str
+    email: str
+    username: str
+    passwd: str
     admin: bool
 
     def set_passwd(self):

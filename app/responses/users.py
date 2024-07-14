@@ -13,7 +13,7 @@ class ResultNotFound(BaseModel):
 class UserNotFound(BaseModel):
     message: str = "Usuário não encontrado"
 
-class ResgistrySucessfull(BaseModel):
+class RegistrySuccessful(BaseModel):
     message: str = "Usuário registrado com sucesso."
 
 class UserAlreadyExist(BaseModel):
