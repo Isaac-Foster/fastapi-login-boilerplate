@@ -81,10 +81,12 @@ redis-server
 uvicorn app.main:app --reload
 ```
 
-5. Acesse a documentação interativa da API:
+5. Acesse a documentação interativa ou de leitura da API:
 
 ```
 http://127.0.0.1:8000/docs
+http://127.0.0.1:8000/redoc
+
 ```
 
 ## Endpoints
