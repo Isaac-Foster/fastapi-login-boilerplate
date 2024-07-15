@@ -1,5 +1,5 @@
 */teste*.py
 __pycache__
-.venv
+./venv
 main.db*
 .env
