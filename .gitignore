@@ -1,5 +1,6 @@
-*/teste*.py
 __pycache__
 ./venv
 main.db*
 .env
+.pytest_cache
+.coverage

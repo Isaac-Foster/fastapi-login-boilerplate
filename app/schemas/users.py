@@ -1,15 +1,79 @@
-import bcrypt
-
+import re
+import string
 from typing import Annotated
 from dataclasses import dataclass
+
+import bcrypt
+from sqlalchemy import select
 from pydantic.networks import EmailStr
+from fastapi import Query, Body, HTTPException
 from email_validator import validate_email, EmailNotValidError
 
-
-from fastapi import Query, Body
-from app.databases.sql import cur, commit
+from app.databases.sql import Session, Users
 
 
+class WeakPasswordError(HTTPException):
+    """Exceção levantada para senhas fracas."""
+    
+    def __init__(self, passwd: str, message: str = "Senha é muito fraca"):
+        self.passwd = passwd
+        self.message = message
+        super().__init__(status_code=400, detail=self.message)
+
+    def __str__(self):
+        return f'{self.message}: {self.passwd}'
+
+
+def is_strong_pass(
+    passwd: str, 
+    chars: int = 8, 
+    lowers: int = 3, 
+    uppers: int = 1, 
+    digits: int = 1
+    ):
+
+    is_strong = re.search(
+        (
+            "(?=^.{%i,}$)"
+            "(?=.*[a-z]{%i,})"
+            "(?=.*[A-Z]{%i})"
+            "(?=.*[0-9]{%i,})"
+            "(?=.*[%s}]+)"
+        ) % 
+        (
+            chars, lowers, uppers,
+            digits, re.escape(string.punctuation)
+        ),
+        passwd
+    )
+
+    if not is_strong:
+        if len(passwd) < chars:
+            raise WeakPasswordError(passwd, f"A senha deve ter pelo menos {chars} caracteres")
+        if not any(char.isdigit() for char in passwd):
+            raise WeakPasswordError(passwd, "A senha deve conter pelo menos um dígito")
+        if not any(char.isupper() for char in passwd):
+            raise WeakPasswordError(passwd, "A senha deve conter pelo menos uma letra maiúscula")
+        if not any(char.islower() for char in passwd):
+            raise WeakPasswordError(passwd, "A senha deve conter pelo menos uma letra minúscula")
+        if not any(char in string.punctuation for char in passwd):
+            raise WeakPasswordError(passwd, "A senha deve conter pelo menos um caractere especial")
+    return True
+
+
+def verify_registry(registry):
+    if len(registry.passwd) > 100:
+            raise HTTPException(status_code=400, detail="senha maior que 100 caracteres")
+        
+    elif len(registry.email) > 256:
+        raise HTTPException(status_code=400, detail="email maior que 256 caracteres")
+
+    elif len(registry.name) > 256:
+        raise HTTPException(status_code=400, detail="nome maior que 256 caracteres")
+    
+    elif len(registry.username) > 50:
+        raise HTTPException(status_code=400, detail="username maior que 50 caracteres")
+    
 
 @dataclass
 class User:
@@ -31,8 +95,15 @@ class Registry:
     passwd: Annotated[str, Body(description="Admin123***")]
 
     def __post_init__(self):
+        
+        verify_registry(self)
+    
+        is_strong_pass(self.passwd)
+
         salt = bcrypt.gensalt()
+
         hashed = bcrypt.hashpw(self.passwd.encode('utf-8'), salt)
+
         self.passwd = hashed.decode('utf-8')
 
         emailinfo = validate_email(self.email, check_deliverability=True)
@@ -41,18 +112,16 @@ class Registry:
 
 
     def register(self) -> bool:
-        alerdy = cur.execute(
-            "SELECT * FROM users WHERE username = ?",
-            [self.username]
-        ).fetchone()
+        with Session() as session:
+            alerdy = session.execute(
+                select(Users).filter_by(username=self.username)
+            ).fetchone()
 
         if not alerdy:
-            cur.execute(
-                "INSERT INTO users(name, email, username, passwd) VALUES(?, ?, ?, ?)",
-                [self.name, self.email, self.username, self.passwd]
-            )
-
-            commit()
+            
+            with Session() as session:
+                session.add(Users(**self.__dict__))
+                session.commit()
 
             return True
         
@@ -65,10 +134,10 @@ class Login:
     passwd: Annotated[str, Body(description="Admin123***")]
 
     def verify(self) -> bool:
-        hashed = cur.execute(
-            "SELECT passwd FROM users WHERE username = ?",
-            [self.username]
-        ).fetchone()
+        with Session() as session:
+            hashed = session.execute(
+                select(Users.passwd).filter_by(username=self.username)
+            ).fetchone()
 
         if not hashed:
             return hashed

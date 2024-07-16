@@ -1,21 +1,21 @@
 
-# Projeto de Autenticação com FastAPI, Redis e SQLite
+# Projeto de Autenticação com FastAPI, Redis e PostgreSQL
 
-Este é um projeto simples de autenticação utilizando FastAPI, Redis e SQLite. O objetivo deste projeto é servir como uma introdução ao desenvolvimento de aplicações web com autenticação baseada em sessões. O projeto inclui endpoints para registro, login e logout de usuários.
+Este é um projeto simples de autenticação utilizando FastAPI, Redis e PostgreSQL. O objetivo deste projeto é servir como uma introdução ao desenvolvimento de aplicações web com autenticação baseada em sessões. O projeto inclui endpoints para registro, login e logout de usuários.
 
 ## Funcionalidades
-
+- Validação de senha forte
 - Registro de usuário com criptografia de senhas (usando bcrypt)
 - Validação de email (regex e verificação de DNS)
 - Login de usuário
 - Proteção de rotas com sessões
 - Logout de usuário (futuro)
-- Suporte a SQLite3 com planos para migração para PostgreSQL usando SQLAlchemy
+- Suporte PostgreSQL usando SQLAlchemy
 
 ## Tecnologias Utilizadas
 
 - **Backend**: FastAPI
-- **Banco de Dados**: SQLite3 (com planos para PostgreSQL usando SQLAlchemy)
+- **Banco de Dados**: PostgreSQL usando SQLAlchemy
 - **Gerenciamento de Sessão**: Redis
 - **Criptografia de Senhas**: bcrypt
 - **Frontend**: HTML, CSS e JavaScript

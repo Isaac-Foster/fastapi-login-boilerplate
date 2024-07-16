@@ -45,7 +45,7 @@ async def sigin(
 
 
 @router.post("/signup", responses={
-    201: dict(model=ResgistrySucessfull),
+    201: dict(model=RegistrySuccessful),
     303: dict(model=UserAlreadyExist)
     })
 async def signup(
@@ -59,6 +59,13 @@ async def signup(
         return RegistrySuccessful()
     response.status_code = 303
     return UserAlreadyExist()
+
+
+@router.delete("/logout")
+@login_required
+async def logout(request: Request, response: Response):
+    redis_manager
+    return
 
 
 @router.get("/user")

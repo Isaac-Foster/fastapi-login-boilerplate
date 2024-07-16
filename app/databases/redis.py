@@ -12,7 +12,8 @@ class RedisManager(redis.Redis):
     def insert(self, key: str, value: str | int, time: int):
         """
         This funcions is used for created insert using TTL data
-        arg: value is seconds
+        Args: 
+            value is seconds
         """
         self.setex(
             name=str(key),
@@ -24,7 +25,9 @@ class RedisManager(redis.Redis):
         session = self.get(key)
         if session: return session.decode("utf-8") 
 
+
 redis_manager = RedisManager(host="localhost", port=6379, db=0)
+
 
 def login_required(f: Callable):
     @wraps(f)
