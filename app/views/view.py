@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse
 router = APIRouter()
 
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/")
 async def root(request: Request):

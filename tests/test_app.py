@@ -11,10 +11,10 @@ async def test_registry_is_ok():
     response = client.post(
         url="/api/users/singin",
         json=dict(
-            name="vey da havan",
+            name="user test test",
             email="sample@sample.com",
             username="usertest",
-            passwd="Senha21@#"
+            passwd="SenhaTest21@#"
         )
         )
 

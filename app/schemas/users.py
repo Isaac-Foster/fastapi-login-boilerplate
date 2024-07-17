@@ -95,20 +95,19 @@ class Registry:
     passwd: Annotated[str, Body(description="Admin123***")]
 
     def __post_init__(self):
-        
+        emailinfo = validate_email(self.email, check_deliverability=True)
+
+        email = emailinfo.normalized
+
         verify_registry(self)
     
         is_strong_pass(self.passwd)
 
+        self.passwd = hashed.decode('utf-8')
+
         salt = bcrypt.gensalt()
 
         hashed = bcrypt.hashpw(self.passwd.encode('utf-8'), salt)
-
-        self.passwd = hashed.decode('utf-8')
-
-        emailinfo = validate_email(self.email, check_deliverability=True)
-
-        email = emailinfo.normalized
 
 
     def register(self) -> bool:

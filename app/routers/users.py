@@ -20,7 +20,7 @@ router = APIRouter(prefix="/users")
     200: dict(model=LoginSucessfull),
     401: dict(model=UserNotFound)
     })
-async def sigin(
+async def signin(
     login: Login, 
     request: Request, 
     response: Response
