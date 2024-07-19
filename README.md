@@ -168,6 +168,6 @@ Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
 
 ## Contato
 
-Isack Vitor - [Telegram](https://t.me/lzaacFoster), [Linkedin](https://www.linkedin.com/in/isack-vitor-rosario-neto-588085147/) - isack200961@hotmail.com
+Isack Vitor - [Telegram](https://t.me/lzaacFoster), [Linkedin](https://www.linkedin.com/in/isack-foster/) - isack200961@hotmail.com
 
 Link do Projeto: [fastapi-login-boilerplate](https://github.com/Isaac-Foster/fastapi-login-boilerplate)
