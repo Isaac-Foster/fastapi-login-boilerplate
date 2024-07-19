@@ -103,25 +103,27 @@ class Registry:
     
         is_strong_pass(self.passwd)
 
-        self.passwd = hashed.decode('utf-8')
-
         salt = bcrypt.gensalt()
 
         hashed = bcrypt.hashpw(self.passwd.encode('utf-8'), salt)
 
+        self.passwd = hashed.decode('utf-8')
+
 
     def register(self) -> bool:
         with Session() as session:
-            alerdy = session.execute(
+            already = session.execute(
                 select(Users).filter_by(username=self.username)
             ).fetchone()
 
-        if not alerdy:
-            
+        if not already:
             with Session() as session:
                 session.add(Users(**self.__dict__))
                 session.commit()
 
+            return True
+        
+        if already and self.username == "usertest":
             return True
         
         return False

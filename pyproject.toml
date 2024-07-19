@@ -43,8 +43,10 @@ select = ["I", "F", "E", "W", "PL", "PT"]
 preview = true
 
 [tool.taskipy.tasks]
-run = "fastapi dev app/main.py"
+run = "uvicorn app.main:app --reload"
+dev = "fastapi dev app/main.py"
 test = "pytest --cov=app -vv"
+post_test = "coverage html"
 lint = "ruff check . && ruff . --diff"
 format = "ruff check . --fix && ruff format ."
 

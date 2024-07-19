@@ -4,3 +4,5 @@ main.db*
 .env
 .pytest_cache
 .coverage
+.ruff_cache
+htmlcov
