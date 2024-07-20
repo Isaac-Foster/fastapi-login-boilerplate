@@ -10,10 +10,18 @@
     <!-- <link rel="stylesheet" type="text/css" href="../static/index.css"> -->
 </head>
 <body>
-    <div class="box">
+    <div class="box" style="height: 600px;">
         <span class="borderline"></span>
-        <form action="{{ url_for('signin') }}" method="post">
-            <h2>Login</h2>
+        <form action="{{ url_for('signup')}}" method="post">
+            <h2>Sigin Up</h2>
+            <div class="inputbox">
+                <input type="text" name="name" placeholder="frist_name surname" required="required">
+                <span>name</span>
+            </div>
+            <div class="inputbox">
+                <input type="email" name="email" placeholder="email" required="required">
+                <span>email</span>
+            </div>
             <div class="inputbox">
                 <input type="text" name="username" placeholder="Usuário" required="required">
                 <span>username</span>
@@ -22,11 +30,15 @@
                 <input type="password" name="passwd" placeholder="Senha" required="required">
                 <span>password</span>
             </div>
+            <div class="inputbox">
+                <input type="password" name="confirm-passwd" placeholder="Senha" required="required">
+                <span>confirm-passwd</span>
+            </div>
 
             <div class="links">
-                <a href="{{ url_for('signup') }}">Registre-se</a>
+                <a href="{{ url_for('signin') }}">Signin</a>
             </div>
-            <button type="submit">Entrar</button>
+            <button type="submit">Subscrible</button>
         </form>
     </div>
     

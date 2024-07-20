@@ -7,6 +7,8 @@ from app.views import view
 
 app = FastAPI()
 
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
 # Configuração básica para permitir todos os origens (todos os domínios) com todos os métodos e cabeçalhos
 app.add_middleware(
     CORSMiddleware,
@@ -16,8 +18,5 @@ app.add_middleware(
     allow_headers=["*"],  # Permitir todos os cabeçalhos
 )
 
-
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
-
-init_app(app)
 app.include_router(view.router)
+init_app(app)

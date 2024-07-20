@@ -5,4 +5,4 @@ main.db*
 .pytest_cache
 .coverage
 .ruff_cache
-htmlcov
+htmlcov/
