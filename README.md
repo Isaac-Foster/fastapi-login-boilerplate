@@ -28,7 +28,6 @@ Este é um projeto simples de autenticação utilizando FastAPI, Redis e Postgre
 │   ├── database
 │   │   ├── redis.py
 │   │   └── sql.py
-│   ├── __init__.py
 │   ├── main.py
 │   ├── responses
 │   │   └── users.py
@@ -39,14 +38,19 @@ Este é um projeto simples de autenticação utilizando FastAPI, Redis e Postgre
 │   │   └── users.py
 │   ├── static
 │   │   ├── index.css
-│   │   └── index.js
+│   │   ├── login.js
+│   │   └── signup.js
 │   ├── templates
-│   │   └── index.html
+│   │   ├── login.html
+│   │   ├── logout.html
+│   │   └── register.html
 │   └── views
 │       └── view.py
-├── poetry.lock
+├── docker-compose.yaml
+├── LICENSE
 ├── pyproject.toml
 ├── README.md
+├── requeriments.txt
 └── tests
     ├── __init__.py
     └── test_app.py
@@ -68,20 +72,13 @@ poetry install
 poetry shell
 ```
 
-3. Inicie o servidor Redis:
+3. Execute a aplicação FastAPI:
 
 ```bash
-redis-server
-
+task run
 ```
 
-4. Execute a aplicação FastAPI:
-
-```bash
-uvicorn app.main:app --reload
-```
-
-5. Acesse a documentação interativa ou de leitura da API:
+4. Acesse a documentação interativa ou de leitura da API:
 
 ```
 http://127.0.0.1:8000/docs
