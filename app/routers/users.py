@@ -1,6 +1,6 @@
 import uuid
 
-from fastapi import APIRouter, Response, Request, Query, Header
+from fastapi import APIRouter, Response, Request, Query, Header, responses
 
 from app.schemas.users import User, Registry, Login
 from app.responses.users import (
@@ -10,16 +10,16 @@ from app.responses.users import (
     RegistrySuccessful
 )
 
-from app.databases.redis import redis_manager, login_required
+from app.database.redis import redis_manager, login_required
 
 
-router = APIRouter(prefix="/users")
+router = APIRouter(prefix="/users", tags=["api"])
 
 
 @router.post("/signin", responses={
     200: dict(model=LoginSucessfull),
     401: dict(model=UserNotFound)
-    })
+    }, name="login")
 async def signin(
     login: Login, 
     request: Request, 
@@ -40,6 +40,7 @@ async def signin(
         redis_manager.insert(key=session_id, time=120, value=login.username)
         response.status_code = 200
         return LoginSucessfull()
+
     response.status_code = 401
     return UserNotFound()
 
@@ -47,25 +48,20 @@ async def signin(
 @router.post("/signup", responses={
     201: dict(model=RegistrySuccessful),
     303: dict(model=UserAlreadyExist)
-    })
+    },
+    name="signup"
+    )
 async def signup(
     registry: Registry, 
     request: Request, 
     response: Response
     ):
-
+    print(registry)
     if registry.register():
         response.status_code = 201
         return RegistrySuccessful()
     response.status_code = 303
     return UserAlreadyExist()
-
-
-@router.delete("/logout")
-@login_required
-async def logout(request: Request, response: Response):
-    redis_manager
-    return
 
 
 @router.get("/user")

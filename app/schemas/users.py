@@ -9,7 +9,7 @@ from pydantic.networks import EmailStr
 from fastapi import Query, Body, HTTPException
 from email_validator import validate_email, EmailNotValidError
 
-from app.databases.sql import Session, Users
+from app.database.sql import Session, UserModel
 
 
 class WeakPasswordError(HTTPException):
@@ -113,12 +113,12 @@ class Registry:
     def register(self) -> bool:
         with Session() as session:
             already = session.execute(
-                select(Users).filter_by(username=self.username)
+                select(UserModel).filter_by(username=self.username)
             ).fetchone()
 
         if not already:
             with Session() as session:
-                session.add(Users(**self.__dict__))
+                session.add(UserModel(**self.__dict__))
                 session.commit()
 
             return True
@@ -137,7 +137,7 @@ class Login:
     def verify(self) -> bool:
         with Session() as session:
             hashed = session.execute(
-                select(Users.passwd).filter_by(username=self.username)
+                select(UserModel.passwd).filter_by(username=self.username)
             ).fetchone()
 
         if not hashed:

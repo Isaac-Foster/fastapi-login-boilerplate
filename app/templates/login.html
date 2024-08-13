@@ -12,7 +12,7 @@
 <body>
     <div class="box">
         <span class="borderline"></span>
-        <form action="{{ url_for('signin') }}" method="post">
+        <form action="{{ url_for('signin') }}" method="post" id="login">
             <h2>Login</h2>
             <div class="inputbox">
                 <input type="text" name="username" placeholder="Usuário" required="required">
@@ -24,7 +24,7 @@
             </div>
 
             <div class="links">
-                <a href="{{ url_for('signup') }}">Registre-se</a>
+                <a href="{{ url_for('register') }}">Registre-se</a>
             </div>
             <button type="submit">Entrar</button>
         </form>
@@ -32,7 +32,7 @@
     
     <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="{{ url_for('static', path='/index.js') }}"></script>
+    <script src="{{ url_for('static', path='/login.js') }}"></script>
     <!-- <script src="../static/index.js"></script> -->
 </body>
 </html>

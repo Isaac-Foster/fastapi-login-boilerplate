@@ -25,7 +25,7 @@ Este é um projeto simples de autenticação utilizando FastAPI, Redis e Postgre
 
 ```
 ├── app
-│   ├── databases
+│   ├── database
 │   │   ├── redis.py
 │   │   └── sql.py
 │   ├── __init__.py

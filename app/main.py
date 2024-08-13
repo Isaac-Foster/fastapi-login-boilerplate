@@ -18,5 +18,5 @@ app.add_middleware(
     allow_headers=["*"],  # Permitir todos os cabeçalhos
 )
 
-app.include_router(view.router)
 init_app(app)
+app.include_router(view.router)

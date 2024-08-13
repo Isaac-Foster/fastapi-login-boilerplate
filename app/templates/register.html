@@ -12,7 +12,7 @@
 <body>
     <div class="box" style="height: 600px;">
         <span class="borderline"></span>
-        <form action="{{ url_for('signup')}}" method="post">
+        <form action="{{ url_for('signup') }}" method="post" id="register">
             <h2>Sigin Up</h2>
             <div class="inputbox">
                 <input type="text" name="name" placeholder="frist_name surname" required="required">
@@ -31,20 +31,20 @@
                 <span>password</span>
             </div>
             <div class="inputbox">
-                <input type="password" name="confirm-passwd" placeholder="Senha" required="required">
+                <input type="password" name="confirmPasswd" placeholder="Senha" required="required">
                 <span>confirm-passwd</span>
             </div>
 
             <div class="links">
-                <a href="{{ url_for('signin') }}">Signin</a>
+                <a href="{{ url_for('signin') }}">Login</a>
             </div>
-            <button type="submit">Subscrible</button>
+            <button type="submit" id="reg">Cadastrar</button>
         </form>
     </div>
     
     <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="{{ url_for('static', path='/index.js') }}"></script>
+    <script src="{{ url_for('static', path='/signup.js') }}"></script>
     <!-- <script src="../static/index.js"></script> -->
 </body>
 </html>
