@@ -21,6 +21,7 @@ document.getElementById('register').addEventListener('submit', event => {
         ).then(
             response => {
                 console.log('POST Response:', response.data);
+                window.location.href = "/";
             }
         ).catch(error => {console.error('POST Error:', error);}
         )

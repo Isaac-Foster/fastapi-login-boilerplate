@@ -2,7 +2,7 @@ import uuid
 
 from fastapi import APIRouter, Response, Request, Query, Header, responses
 
-from app.schemas.users import User, Registry, Login
+from app.schemas.user import User, Registry, Login
 from app.responses.users import (
     UserNotFound, 
     UserAlreadyExist, 
